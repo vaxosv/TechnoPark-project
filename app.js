@@ -1,7 +1,7 @@
 const express = require("express");
 const path = require("path");
 const app = express();
-const port = 8081;
+const port = process.env.PORT || 8081;
 
 
 app.set("views", path.join(__dirname, "views"));
@@ -17,5 +17,8 @@ app.get("/admin", (req, res) => {
     res.render("admin");
 })
 
+app.get("/admin/posts", (req, res) => {
+  res.render("admin");
+});
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
