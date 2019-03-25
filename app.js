@@ -24,9 +24,7 @@ app.use("/public", express.static("public"));
 
 
 // routebi
-app.use('/about', aboutR)
 app.use('/', mainR);
-app.use
-
+app.use('/about', aboutR)
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
