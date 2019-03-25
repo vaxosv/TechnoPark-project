@@ -17,9 +17,9 @@
   },
   "homepage": "https://github.com/vaxosv/TechnoPark-project#readme",
   "dependencies": {
-    "express": "^4.16.4",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.3",
+    "express": "^4.16.4",
     "express-session": "^1.15.6",
     "express-validator": "^5.2.0",
     "mongoose": "^5.1.5",
