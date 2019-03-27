@@ -8,6 +8,7 @@ router.get("/", (req, res)=>{
 
 let post1 = new posts();
 
+
 router.get("/add", (req, res) => {
     res.render('add_post', {
         title: 'Add Post'
