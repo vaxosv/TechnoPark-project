@@ -1,6 +1,7 @@
 const express = require("express");
 const path = require("path");
 const app = express();
+const bodyParser = require('body-parser')
 const mongoose = require("mongoose");
 const port = process.env.PORT || 8081;
 const aboutR = require('./routes/about');
@@ -13,15 +14,19 @@ const uri = "mongodb+srv://Gikkk:giogio12345@techp-cb7ye.mongodb.net/test?retryW
 //first connection
 mongoose.connect(uri);
 let db = mongoose.connection;
-db.once("open", (err) => { console.log("conected") });
+db.once("open", (err) => { console.log("connected") });
 db.on("error", (err)=> {console.log(err)});
 
+// body parser
+app.use(bodyParser.urlencoded({
+    extended: false
+}))
+app.use(bodyParser.json())
 
 //views
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "pug");
 app.use("/public", express.static("public"));
-
 
 
 // routebi

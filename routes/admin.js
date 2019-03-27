@@ -1,27 +1,34 @@
 const express = require('express');
 const router = express.Router();
-const mongoose = require("mongoose");
 const posts = require("../model/postebi");
 
 router.get("/", (req, res)=>{
-    res.render('admin');
+    res.render('admin');   
 })
+
+let post1 = new posts();
+
 router.get("/add", (req, res) => {
-    let post1 = new posts();
-    post1.name = "js";
+    res.render('add_post', {
+        title: 'Add Post'
+    });
+   
+    post1.title = 'gio';
 
-    post1.save(function (err) {
-        if (err) {
-            console.log(err);
-            return;
-        } else {
-            res.render('admin');
-        }
+    post1.save((err)=>{
+        if(err) throw err;
+
     })
-
 })
 
-router.get("/remove/:id", (req, res) => {})
-router.get("/update/:id", (req, res) => {});
+router.get('/update/:id', (req,res)=>{
+    posts.findById( req.params.id, (err, data) => {
+    
+    })
+})
+
+
+
+
 
 module.exports = router;

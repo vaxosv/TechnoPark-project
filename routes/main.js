@@ -3,7 +3,9 @@ const router = express.Router();
 
 
 router.get("/", (req, res)=>{
-    res.render('main');
+    res.render('main',{
+        title: 'Homepage'
+    });
 })
 
 module.exports = router;
