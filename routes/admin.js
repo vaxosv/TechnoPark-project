@@ -6,15 +6,14 @@ router.get("/", (req, res)=>{
     res.render('admin');   
 })
 
-let post1 = new posts();
 
-
-router.get("/add", (req, res) => {
+router.get("/add/:name", (req, res) => {
+    let post1 = new posts();
     res.render('add_post', {
         title: 'Add Post'
     });
    
-    post1.title = 'gio';
+    post1.title = req.params.name;
 
     post1.save((err)=>{
         if(err) throw err;
@@ -22,10 +21,29 @@ router.get("/add", (req, res) => {
     })
 })
 
-router.get('/update/:id', (req,res)=>{
-    posts.findById( req.params.id, (err, data) => {
+router.get('/update/:name/:new', (req,res)=>{
     
-    })
+    let name = req.params.name
+    let newdata = req.params.new
+    posts.findOneAndUpdate(
+        { title: name },
+        {title: newdata},
+        { new: true },
+        (err, task) => {
+          if (err) {
+            res.status(500).send(err);
+          }
+          res.status(200).json(task);
+        }
+      );
+})
+
+router.get('/remove/:name', (req, res) =>{
+    let name = req.params.name
+
+    posts.deleteOne({ title: name }, function(err) { 
+        if (err)  throw err;
+  });
 })
 
 
