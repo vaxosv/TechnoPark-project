@@ -7,8 +7,11 @@ html(lang="en")
         title Post
     body
         h1 #{title}
-        form(method='POST', action='/admin/add')
+        form(method='POST', action='/admin/edit')
           #form-group 
-            label Title:
-            input.form-control(name='title', type='text')
+            label Current Post:
+            input.form-control(name='name', type='text')
+          #form-group 
+            label New Post:
+            input.form-control(name='newName', type='text')
           input.btn.btn-primary(type='submit', value='Submit')    

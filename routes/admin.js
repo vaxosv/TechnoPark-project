@@ -6,46 +6,63 @@ router.get("/", (req, res)=>{
     res.render('admin');   
 })
 
-
-router.get("/add/:name", (req, res) => {
-    let post1 = new posts();
+router.get('/add',(req,res)=>{
     res.render('add_post', {
-        title: 'Add Post'
-    });
-   
-    post1.title = req.params.name;
-
-    post1.save((err)=>{
-        if(err) throw err;
-
+      title: "Add Post"
     })
 })
 
-router.get('/update/:name/:new', (req,res)=>{
-    
-    let name = req.params.name
-    let newdata = req.params.new
-    posts.findOneAndUpdate(
-        { title: name },
-        {title: newdata},
-        { new: true },
-        (err, task) => {
-          if (err) {
-            res.status(500).send(err);
-          }
-          res.status(200).json(task);
-        }
-      );
+router.post('/add', (req, res)=>{
+    const title = req.body.title
+    let newPost = new posts({
+    title:title
+    })
+
+    newPost.save((err)=>{
+      if(err){ 
+          throw err;
+      }else{  
+       res.redirect('/admin/add')
+      }
+   });
 })
 
-router.get('/remove/:name', (req, res) =>{
-    let name = req.params.name
-
-    posts.deleteOne({ title: name }, function(err) { 
-        if (err)  throw err;
-  });
+router.get('/edit',(req,res)=>{
+  res.render('edit', {
+    title: "Edit"
+  })
 })
 
+router.post('/edit', (req, res)=>{
+  let name = req.body.name;
+  let newdata = req.body.newName;
+  posts.findOneAndUpdate(
+            { title: name },
+            {title: newdata},
+            { new: true },
+            (err, task) => {
+              if (err) {
+                res.status(500).send(err);
+              }
+              res.status(200).json(task);
+            }
+          );
+})
+
+
+router.get('/remove',(req,res)=>{
+  res.render('remove', {
+    title: "remove"
+  })
+})
+
+router.post('/remove', (req, res)=>{
+    let delPost = req.body.title
+    posts.deleteOne({ title: delPost }, function(err) { 
+          if (err)  throw err;
+          res.redirect('/admin/remove')
+      });
+});
 
 
 
