@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-// User Schema
+// posts Schema
 var Posts = mongoose.Schema({
     title: {
         type: String,
@@ -8,4 +8,4 @@ var Posts = mongoose.Schema({
     }
 });
 
-var Posts = module.exports = mongoose.model("User", Posts);
+var Posts = module.exports = mongoose.model("Posts", Posts);

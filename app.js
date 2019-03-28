@@ -7,6 +7,7 @@ const port = process.env.PORT || 8081;
 const aboutR = require('./routes/about');
 const mainR = require('./routes/main');
 const adminR = require("./routes/admin");
+const usersR = require('./routes/users')
 const uri = "mongodb+srv://Gikkk:giogio12345@techp-cb7ye.mongodb.net/test?retryWrites=true";
 
 
@@ -33,5 +34,6 @@ app.use("/public", express.static("public"));
 app.use('/', mainR);
 app.use('/about', aboutR)
 app.use('/admin', adminR)
+app.use('/users', usersR)
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
