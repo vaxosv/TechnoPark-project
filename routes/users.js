@@ -19,20 +19,20 @@ router.post("/register", function (req, res) {
     const password2 = req.body.password2
     
 
-    req.checkBody("name", "name is required").notEmpty()
-    req.checkBody("email", "email is required").notEmpty()
-    req.checkBody("email", "email is not waled").isEmail()
-    req.checkBody("username", "username is required").notEmpty()
-    req.checkBody("password", "password is required").notEmpty()
-    req.checkBody("password2", "passwords do not match").equals(password)
+    // req.checkBody("name", "name is required").notEmpty()
+    // req.checkBody("email", "email is required").notEmpty()
+    // req.checkBody("email", "email is not waled").isEmail()
+    // req.checkBody("username", "username is required").notEmpty()
+    // req.checkBody("password", "password is required").notEmpty()
+    // req.checkBody("password2", "passwords do not match").equals(password)
 
-    let errors = req.validationErrors()
+    // let errors = req.validationErrors()
 
-    if (errors) {
-        res.render("register", {
-            errors: errors
-        })
-    } else {
+    // if (errors) {
+    //     res.render("register", {
+    //         errors: errors
+    //     })
+    // } else {
         let newUser = new User({
             name: name,
             email: email,
@@ -40,24 +40,24 @@ router.post("/register", function (req, res) {
             password: password,
            
         })
-      bcrypt.gensalt(10,(err, salt)=>{
-          bcrypt.hash(newUser.password, salt, (err, hash)=>{
-            if(err) {
-                console.log(err);
+    //   bcrypt.gensalt(10,(err, salt)=>{
+    //       bcrypt.hash(newUser.password, salt, (err, hash)=>{
+    //         if(err) {
+    //             console.log(err);
                 
-            }
-            newUser.password = hash;
+    //         }
+    //         newUser.password = hash;
             newUser.save((err)=>{
                if(err){ 
                    throw err;
                }else{  
-                req.flash('You are user');
+                res.redirect('/')
                }
             });
             
-          });
-      })
-    }
+    //       });
+    //   })
+    // }
 }) 
 
     
