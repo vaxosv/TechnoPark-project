@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs')
 const passport = require('passport');
-const expressValidator = require('express-validator');
+const { check, validationResult } = require('express-validator/check');
 
 let User = require('../model/user');
 
@@ -12,11 +12,11 @@ router.get('/register', (req, res)=>{
 })
 
 router.post("/register", function (req, res) {
-    const name = req.body.name
-    const email = req.body.email
-    const username = req.body.username
-    const password = req.body.password
-    const password2 = req.body.password2
+    // const name = req.body.name
+    // const email = req.body.email
+    // const username = req.body.username
+    // const password = req.body.password
+    // const password2 = req.body.password2
     
 
     // req.checkBody("name", "name is required").notEmpty()
@@ -33,13 +33,14 @@ router.post("/register", function (req, res) {
     //         errors: errors
     //     })
     // } else {
-        let newUser = new User({
-            name: name,
-            email: email,
-            username: username,
-            password: password,
+
+        // let newUser = new User({
+        //     name: name,
+        //     email: email,
+        //     username: username,
+        //     password: password,
            
-        })
+        // })
     //   bcrypt.gensalt(10,(err, salt)=>{
     //       bcrypt.hash(newUser.password, salt, (err, hash)=>{
     //         if(err) {
@@ -62,6 +63,25 @@ router.post("/register", function (req, res) {
 
     
 
+router.post('/userr', [
+    // username must be an email
+    check('username').isEmail(),
+    // password must be at least 5 chars long
+    check('password').isLength({ min: 5 })
+],
+(req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(422).json({ errors: errors.array() });
+    }
+
+    User.create({
+        name: req.body.username,
+        email: req.body.password,
+        username: "dasdsa",
+        password: "11111"
+    }).then(user => res.json(user));
+});
     
 
 

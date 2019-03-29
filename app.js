@@ -1,7 +1,7 @@
 const express = require("express");
 const path = require("path");
 const app = express();
-const bodyParser = require('body-parser')
+const bodyParser = require('body-parser');
 const mongoose = require("mongoose");
 const port = process.env.PORT || 8081;
 const aboutR = require('./routes/about');
