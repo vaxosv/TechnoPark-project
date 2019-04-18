@@ -16,32 +16,74 @@ router.get('/register', (req, res)=>{
 router.post('/register', [
     check('name').not().isEmpty(),
     check('email').isEmail(),
-    check('email').not().isEmpty(),
+    check('email').not().isEmpty().custom((value, {req}) => {
+        return new Promise((resolve, reject) => {
+          User.findOne({email:req.body.email}, function(err, user){
+            if(err) {
+              reject(new Error('Server Error'))
+            }
+            if(Boolean(user)) {
+              reject(new Error('E-mail already in use'))
+            }
+            resolve(true)
+          });
+        });
+      }),
     check('username').not().isEmpty(),
-    check('password').isLength({ min: 5 }),
-    // check('password2').equals()
-],
+    check('password').isLength({ min: 6 }),
+    check('password2').custom((value, { req }) => value === req.body.password)
+  ],
 (req, res) => {
-    const name = req.body.name
-    const email = req.body.email
-    const username = req.body.username
-    const password = req.body.password
-    const password2 = req.body.password2
-    
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        return res.status(422).json({ errors: errors.array() });
-    }
 
-    User.create({
-        name: name,
-        email: email,
-        username: username,
-        password: password
-    }).then(user => res.json(user));
+    const { name, email,username, password, password2 } = req.body;
+    const validationErrors = validationResult(req);
+          let errors = [];
+          if(!validationErrors.isEmpty()) {
+            Object.keys(validationErrors.mapped()).forEach(field => {
+              errors.push(validationErrors.mapped()[field]['msg']);
+            });
+          }
+
+          if(errors.length){
+            res.render('register',{
+              errors:errors
+            });
+          }  else {
+            const newUser = new User({
+              name,
+              email,
+              username,
+              password
+            });
+            bcrypt.genSalt(10, (err, salt) => {
+              bcrypt.hash(newUser.password, salt, (err, hash) => {
+                if (err) throw err;
+                newUser.password = hash;
+                newUser
+                  .save()
+                  .then(user => {
+                    res.redirect('/users/login');
+                  })
+                  .catch(err => console.log(err));
+              });
+            })  
+}});
+    
+          
+
+router.get('/login', (req, res)=>{
+    res.render('login',{
+        title: "Login"
+    })
+})
+
+router.post('/login', function (req, res, next) {
+    passport.authenticate('local', {
+        
+        successRedirect: '/',
+        failureRedirect: '/users/login',
+        
+    })(req, res, next);
 });
-    
-
-
 
 module.exports = router;
