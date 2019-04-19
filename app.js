@@ -11,6 +11,7 @@ const adminR = require("./routes/admin");
 const usersR = require('./routes/users')
 const config = require('./config/database')
 
+const session = require('express-session')
 
 
 
@@ -34,7 +35,7 @@ app.set("view engine", "pug");
 app.use("/public", express.static("public"));
 
 require('./config/passport')(passport);
-
+app.use(session({secret: 'shaqro'}))
 app.use(passport.initialize());
 app.use(passport.session())
 

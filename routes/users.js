@@ -36,6 +36,8 @@ router.post('/register', [
 (req, res) => {
 
     const { name, email,username, password, password2 } = req.body;
+    const status = "user"
+
     const validationErrors = validationResult(req);
           let errors = [];
           if(!validationErrors.isEmpty()) {
@@ -53,7 +55,9 @@ router.post('/register', [
               name,
               email,
               username,
-              password
+              password,
+              status: status
+
             });
             bcrypt.genSalt(10, (err, salt) => {
               bcrypt.hash(newUser.password, salt, (err, hash) => {
@@ -79,11 +83,18 @@ router.get('/login', (req, res)=>{
 
 router.post('/login', function (req, res, next) {
     passport.authenticate('local', {
-        
-        successRedirect: '/',
-        failureRedirect: '/users/login',
-        
+       successRedirect: '/',
+       failureRedirect: '/login' 
     })(req, res, next);
+});
+router.get('*', function (req, res, next) {
+  if (req.isAuthenticated()) {
+      console.log('maqvs ufleba');
+      
+  } else {
+      console.log('ar maq ufleba');
+      
+  }next()
 });
 
 module.exports = router;
