@@ -7,11 +7,27 @@ const { check, validationResult } = require('express-validator/check');
 let User = require('../model/user');
 
 
+
 router.get('/register', (req, res)=>{
     res.render('register')
 })
+router.get('/login', (req, res)=>{
+  res.render('login',{
+      title: "Login"
+  })
+})
 
+router.get('*', function (req, res, next) {
+
+  if (req.isAuthenticated() && req.user.status === "user") {
     
+      next()
+  } else {
+      res.redirect("/users/login")
+  }
+
+
+})
 
 router.post('/register', [
     check('name').not().isEmpty(),
@@ -75,11 +91,7 @@ router.post('/register', [
     
           
 
-router.get('/login', (req, res)=>{
-    res.render('login',{
-        title: "Login"
-    })
-})
+
 
 router.post('/login', function (req, res, next) {
     passport.authenticate('local', {
@@ -87,14 +99,9 @@ router.post('/login', function (req, res, next) {
        failureRedirect: '/login' 
     })(req, res, next);
 });
-router.get('*', function (req, res, next) {
-  if (req.isAuthenticated()) {
-      console.log('maqvs ufleba');
-      
-  } else {
-      console.log('ar maq ufleba');
-      
-  }next()
-});
+
+
+
+
 
 module.exports = router;

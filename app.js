@@ -46,6 +46,10 @@ app.use('/about', aboutR)
 app.use('/admin', adminR)
 app.use('/users', usersR)
 
-
+app.get('/logout', function(req, res){
+    console.log('logging out');
+    req.logout();
+    res.redirect('/');
+  });
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));

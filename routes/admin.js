@@ -2,9 +2,20 @@ const express = require('express');
 const router = express.Router();
 const posts = require("../model/postebi");
 
-router.get("/", (req, res)=>{
-    res.render('admin');   
+
+
+
+router.get('/', function (req, res, next) {
+  if (req.isAuthenticated() && req.user.status === "admin") {
+      res.render('admin')
+      next();
+  } else {
+      res.redirect("/users/login")
+  }
+
+
 })
+
 
 router.get('/add',(req,res)=>{
     res.render('add_post', {
