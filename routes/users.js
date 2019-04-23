@@ -3,8 +3,8 @@ const router = express.Router();
 const bcrypt = require('bcryptjs')
 const passport = require('passport');
 const { check, validationResult } = require('express-validator/check');
-
-let User = require('../model/user');
+const posts = require("../model/postebi");
+const User = require('../model/user');
 
 
 
@@ -100,7 +100,63 @@ router.post('/login', function (req, res, next) {
     })(req, res, next);
 });
 
+router.get('/add',(req,res)=>{
+  res.render('add_post', {
+    title: "Add Post"
+  })
+})
 
+router.post('/add', (req, res)=>{
+  const title = req.body.title
+  let newPost = new posts({
+  title:title
+  })
+
+  newPost.save((err)=>{
+    if(err){ 
+        throw err;
+    }else{  
+     res.redirect('/users/add')
+    }
+ });
+})
+
+router.get('/edit',(req,res)=>{
+res.render('edit', {
+  title: "Edit"
+})
+})
+
+router.post('/edit', (req, res)=>{
+let name = req.body.name;
+let newdata = req.body.newName;
+posts.findOneAndUpdate(
+          { title: name },
+          {title: newdata},
+          { new: true },
+          (err, task) => {
+            if (err) {
+              res.status(500).send(err);
+            }
+            res.status(200).json(task);
+          }
+        );
+})
+
+
+router.get('/remove',(req,res)=>{
+res.render('remove', {
+  title: "remove"
+})
+})
+
+router.post('/remove', (req, res)=>{
+  let delPost = req.body.title
+  posts.deleteOne({ title: delPost }, function(err) { 
+        if (err)  throw err;
+        res.redirect('/users/remove')
+    });
+});
 
 
 
