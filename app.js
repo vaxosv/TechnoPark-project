@@ -13,6 +13,7 @@ const config = require('./config/database')
 
 const session = require('express-session')
 
+app.use(express.static('public'))
 
 
 

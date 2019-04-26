@@ -26,13 +26,6 @@ router.get('/',(req,res)=>{
   })
 })
 
-
-// router.get('/add',(req,res)=>{
-//   res.render('add_post', {
-//     title: "Add Post"
-//   })
-// })
-
 router.post('/remove', (req, res)=>{
   let delUser = req.body.name
   
