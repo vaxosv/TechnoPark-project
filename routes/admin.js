@@ -8,13 +8,8 @@ const User = require('../model/user');
 router.get('*', function (req, res, next) {
 
   if (req.isAuthenticated() && req.user.status === "admin") {
-    User.find({}, function(err, user){
-      if(err) throw err;
-      console.log(user);
-      res.render('admin', {user}) 
-      next()
     
-    })
+    next()
      
      
   } else {
@@ -22,12 +17,30 @@ router.get('*', function (req, res, next) {
   }
 })
 
-router.get('/add',(req,res)=>{
-  res.render('add_post', {
-    title: "Add Post"
+router.get('/',(req,res)=>{
+  User.find({}, function(err, user){
+    if(err) throw err;
+    
+    res.render('admin', {user}) 
+    
   })
 })
- 
+
+
+// router.get('/add',(req,res)=>{
+//   res.render('add_post', {
+//     title: "Add Post"
+//   })
+// })
+
+router.post('/remove', (req, res)=>{
+  let delUser = req.body.name
+  
+  User.remove({ username: delUser }, function(err) { 
+        if (err)  throw err;
+        res.redirect('/admin')
+    });
+});
 
 
 

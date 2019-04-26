@@ -10,3 +10,7 @@ html(lang="en")
         for item in user
           li= item.username
           li= item.email
+      form(method='POST', action='/admin/remove')
+          #form-group 
+            label Name:
+            input.form-control(name='name', type='text')
