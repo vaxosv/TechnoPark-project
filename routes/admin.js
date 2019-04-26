@@ -8,8 +8,15 @@ const User = require('../model/user');
 router.get('*', function (req, res, next) {
 
   if (req.isAuthenticated() && req.user.status === "admin") {
-      res.render('admin') 
+    User.find({}, function(err, user){
+      if(err) throw err;
+      console.log(user);
+      res.render('admin', {user}) 
       next()
+    
+    })
+     
+     
   } else {
       res.redirect("/users/login")
   }
@@ -20,6 +27,7 @@ router.get('/add',(req,res)=>{
     title: "Add Post"
   })
 })
+ 
 
 
 

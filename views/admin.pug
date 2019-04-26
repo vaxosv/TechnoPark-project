@@ -6,5 +6,7 @@ html(lang="en")
         meta(http-equiv="X-UA-Compatible", content="ie=edge")
         title adminka
     body
-      lu
-        h1 adminka
+      ul
+        for item in user
+          li= item.username
+          li= item.email
