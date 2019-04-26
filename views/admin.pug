@@ -12,5 +12,10 @@ html(lang="en")
           li= item.email
       form(method='POST', action='/admin/remove')
           #form-group 
-            label Name:
+            label delete user:
             input.form-control(name='name', type='text')
+      form(method='POST', action='/admin/edit')
+          #form-group 
+            label change color:
+            input.form-control(name='settings', type='text')
+
