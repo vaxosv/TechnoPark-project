@@ -8,7 +8,8 @@ const passport = require('passport');
 const aboutR = require('./routes/about');
 const mainR = require('./routes/main');
 const adminR = require("./routes/admin");
-const usersR = require('./routes/users')
+const usersR = require('./routes/users');
+const valutaR = require('./routes/valuta')
 const config = require('./config/database')
 
 const session = require('express-session')
@@ -46,6 +47,7 @@ app.use('/', mainR);
 app.use('/about', aboutR)
 app.use('/admin', adminR)
 app.use('/users', usersR)
+
 
 app.get('/logout', function(req, res){
     console.log('logging out');
